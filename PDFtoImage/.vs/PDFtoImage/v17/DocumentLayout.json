@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Channel\\Code Sell\\Working\\Git\\ImageProcessing\\PDFtoImage\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1B2CB2F5-C178-405F-A124-B32A85C2A5E4}|PDFtoImages\\PDFtoImages.csproj|d:\\channel\\code sell\\working\\git\\imageprocessing\\pdftoimage\\pdftoimages\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B2CB2F5-C178-405F-A124-B32A85C2A5E4}|PDFtoImages\\PDFtoImages.csproj|solutionrelative:pdftoimages\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{5a4e9529-b6a0-46b5-be4f-0f0b239bc0eb}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Channel\\Code Sell\\Working\\Git\\ImageProcessing\\PDFtoImage\\PDFtoImages\\Program.cs",
+              "RelativeDocumentMoniker": "PDFtoImages\\Program.cs",
+              "ToolTip": "D:\\Channel\\Code Sell\\Working\\Git\\ImageProcessing\\PDFtoImage\\PDFtoImages\\Program.cs",
+              "RelativeToolTip": "PDFtoImages\\Program.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAiwBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-06T05:32:19.314Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

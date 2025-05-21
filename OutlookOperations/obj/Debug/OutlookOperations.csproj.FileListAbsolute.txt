@@ -1,0 +1,7 @@
+D:\Channel\Code Sell\Working\Git\AutomationCode\OutlookOperations\bin\Debug\OutlookOperations.exe.config
+D:\Channel\Code Sell\Working\Git\AutomationCode\OutlookOperations\bin\Debug\OutlookOperations.exe
+D:\Channel\Code Sell\Working\Git\AutomationCode\OutlookOperations\bin\Debug\OutlookOperations.pdb
+D:\Channel\Code Sell\Working\Git\AutomationCode\OutlookOperations\obj\Debug\OutlookOperations.csproj.AssemblyReference.cache
+D:\Channel\Code Sell\Working\Git\AutomationCode\OutlookOperations\obj\Debug\OutlookOperations.csproj.CoreCompileInputs.cache
+D:\Channel\Code Sell\Working\Git\AutomationCode\OutlookOperations\obj\Debug\OutlookOperations.exe
+D:\Channel\Code Sell\Working\Git\AutomationCode\OutlookOperations\obj\Debug\OutlookOperations.pdb
