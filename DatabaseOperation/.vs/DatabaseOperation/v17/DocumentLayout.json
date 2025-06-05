@@ -1,10 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Channel\\Code Sell\\Working\\Git\\DatabaseOperation\\",
+  "WorkspaceRootPath": "D:\\Channel\\Code Sell\\Working\\Git\\AutomationCode\\DatabaseOperation\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7D08F4AD-AD44-4161-94F4-DEF9FFCA9FBE}|DatabaseOperation.csproj|d:\\channel\\code sell\\working\\git\\databaseoperation\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7D08F4AD-AD44-4161-94F4-DEF9FFCA9FBE}|DatabaseOperation.csproj|d:\\channel\\code sell\\working\\git\\automationcode\\databaseoperation\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7D08F4AD-AD44-4161-94F4-DEF9FFCA9FBE}|DatabaseOperation.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D08F4AD-AD44-4161-94F4-DEF9FFCA9FBE}|DatabaseOperation.csproj|D:\\Channel\\Code Sell\\Working\\Git\\AutomationCode\\DatabaseOperation\\dbserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7D08F4AD-AD44-4161-94F4-DEF9FFCA9FBE}|DatabaseOperation.csproj|solutionrelative:dbserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,13 +38,25 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DBServerConnection.cs",
+              "DocumentMoniker": "D:\\Channel\\Code Sell\\Working\\Git\\AutomationCode\\DatabaseOperation\\DBServerConnection.cs",
+              "RelativeDocumentMoniker": "DBServerConnection.cs",
+              "ToolTip": "D:\\Channel\\Code Sell\\Working\\Git\\AutomationCode\\DatabaseOperation\\DBServerConnection.cs",
+              "RelativeToolTip": "DBServerConnection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T17:44:11.943Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Channel\\Code Sell\\Working\\Git\\DatabaseOperation\\Program.cs",
+              "DocumentMoniker": "D:\\Channel\\Code Sell\\Working\\Git\\AutomationCode\\DatabaseOperation\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\Channel\\Code Sell\\Working\\Git\\DatabaseOperation\\Program.cs",
+              "ToolTip": "D:\\Channel\\Code Sell\\Working\\Git\\AutomationCode\\DatabaseOperation\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-05T17:06:48.838Z",
               "EditorCaption": ""

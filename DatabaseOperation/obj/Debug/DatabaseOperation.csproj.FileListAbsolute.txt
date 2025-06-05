@@ -1,0 +1,10 @@
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\obj\Debug\DatabaseOperation.csproj.AssemblyReference.cache
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\obj\Debug\DatabaseOperation.csproj.CoreCompileInputs.cache
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\bin\Debug\DatabaseOperation.exe.config
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\bin\Debug\DatabaseOperation.exe
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\bin\Debug\DatabaseOperation.pdb
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\bin\Debug\Microsoft.Data.ConnectionUI.Dialog.dll
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\bin\Debug\Microsoft.Data.ConnectionUI.dll
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\obj\Debug\Database.00544E76.Up2Date
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\obj\Debug\DatabaseOperation.exe
+D:\Channel\Code Sell\Working\Git\AutomationCode\DatabaseOperation\obj\Debug\DatabaseOperation.pdb
