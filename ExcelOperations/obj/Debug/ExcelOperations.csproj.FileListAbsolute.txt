@@ -1,0 +1,7 @@
+D:\Channel\Code Sell\Working\Git\AutomationCode\ExcelOperations\bin\Debug\ExcelOperations.exe.config
+D:\Channel\Code Sell\Working\Git\AutomationCode\ExcelOperations\bin\Debug\ExcelOperations.exe
+D:\Channel\Code Sell\Working\Git\AutomationCode\ExcelOperations\bin\Debug\ExcelOperations.pdb
+D:\Channel\Code Sell\Working\Git\AutomationCode\ExcelOperations\obj\Debug\ExcelOperations.csproj.AssemblyReference.cache
+D:\Channel\Code Sell\Working\Git\AutomationCode\ExcelOperations\obj\Debug\ExcelOperations.csproj.CoreCompileInputs.cache
+D:\Channel\Code Sell\Working\Git\AutomationCode\ExcelOperations\obj\Debug\ExcelOperations.exe
+D:\Channel\Code Sell\Working\Git\AutomationCode\ExcelOperations\obj\Debug\ExcelOperations.pdb

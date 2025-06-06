@@ -2,10 +2,12 @@
 using System;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace ExcelOperations
 {
@@ -712,6 +714,608 @@ namespace ExcelOperations
         {
             get { return borders; }
             set { borders = value; }
+        }
+    }
+
+    public class CreatePivotTable
+    {
+        public enum PivotFunction
+        {
+            None,
+            Sum,
+            Count,
+            Average,
+        }
+
+        public string SheetName;
+        private System.Data.DataTable sampleData;
+        private System.Data.DataTable MappingDataTable;
+
+        private autoDataTable vmsDatatable;
+        private List<PivotTableMapping> mapping;
+        private string firstColumnVar = "A";
+        private string lastColumnVar = "G";
+        private bool Loading = true;
+        public static string LastExcelFileToGetSample = string.Empty;
+
+        public object StartCol { get; private set; }
+        public object EndCol { get; private set; }
+
+        public string FirstColumn
+        {
+            get { return firstColumnVar; }
+            set { firstColumnVar = value; }
+        }
+        public string LastColumn
+        {
+            get { return lastColumnVar; }
+            set { lastColumnVar = value; }
+        }
+
+        public CreatePivotTable()
+        {
+
+        }
+
+        public void ReloadExcelColumns()
+        {
+            System.Data.DataTable old = this.MappingDataTable.Copy();
+            MappingDataTable.Rows.Clear();
+
+            int startColIndex = ExcelTranslator.GetColumnIndex(this.StartCol.ToString() == "" ? "A" : this.StartCol.ToString());
+            int endColIndex = ExcelTranslator.GetColumnIndex(this.EndCol.ToString() == "" ? "E" : this.EndCol.ToString());
+
+            for (int i = startColIndex; i <= endColIndex; i++)
+            {
+                DataRow row = MappingDataTable.NewRow();
+                row["ExcelColumnDisplay"] = ExcelTranslator.GetColNameFromNumber(i);
+
+
+                DataRow[] search = old.Select("ExcelColumnDisplay= '" + ExcelTranslator.GetColNameFromNumber(i) + "'");
+                if (search.Length > 0)
+                {
+                    row["PivotTableFields"] = search[0]["PivotTableFields"];
+                    row["PivotTableColumns"] = search[0]["PivotTableColumns"];
+                    row["PivotTableRows"] = search[0]["PivotTableRows"];
+                    row["PivotTableValues"] = search[0]["PivotTableValues"];
+                    row["ExcelColumnDisplay"] = search[0]["ExcelColumnDisplay"];
+                }
+                else
+                {
+                    row["ExcelColumnDisplay"] = ExcelTranslator.GetColNameFromNumber(i);
+                }
+
+                if (sampleData != null && sampleData.Rows.Count > 0)
+                {
+                    string temp = (sampleData.Rows[0][ExcelTranslator.GetColNameFromNumber(i)]).ToString();
+                    if (sampleData != null && sampleData.Rows.Count > 0)
+                    {
+                        row["PivotTableFields"] = (sampleData.Rows[0][ExcelTranslator.GetColNameFromNumber(i)]).ToString();
+                    }
+                }
+                if (row["PivotTableFields"].ToString() != string.Empty)
+                {
+                    MappingDataTable.Rows.Add(row);
+                }
+            }
+        }
+
+        public CreatePivotTable(List<PivotTableMapping> ptMapping, autoDataTable vwDataTable,
+          string FirstColumn, string LastColumn)
+        {
+
+            Loading = true;
+
+            this.vmsDatatable = vwDataTable;
+
+            if (vwDataTable == null) return;
+
+            List<string> cols = new List<string>();
+            cols.Add("<Ignore>");
+            cols.Add("Sum");
+            cols.Add("Count");
+            cols.Add("Average");
+            cols.Add("Min");
+            cols.Add("Max");
+            cols.Add("Product");
+
+            string Title = " [ Datatable Name :" + vwDataTable.DataTableName + " ]";
+            this.mapping = ptMapping;
+
+            this.FirstColumn = FirstColumn;
+            this.LastColumn = LastColumn;
+
+            this.StartCol = this.FirstColumn;
+            this.EndCol = this.LastColumn;
+
+            MappingDataTable = new System.Data.DataTable();
+            MappingDataTable.Columns.Add("PivotTableFields", typeof(string));
+            MappingDataTable.Columns.Add("PivotTableColumns", typeof(string));
+            MappingDataTable.Columns.Add("PivotTableRows", typeof(string));
+            MappingDataTable.Columns.Add("PivotTableValues", typeof(string));
+            MappingDataTable.Columns.Add("ExcelColumnDisplay", typeof(string));
+
+            foreach (PivotTableMapping map in mapping)
+            {
+                if (map.PivotTableFields != string.Empty)
+                {
+                    DataRow row = MappingDataTable.NewRow();
+                    row["PivotTableFields"] = map.PivotTableFields;
+
+                    if (map.PivotTableColumns.Equals("True") || map.PivotTableColumns.Equals("False"))
+                        row["PivotTableColumns"] = false;
+                    else
+                        row["PivotTableColumns"] = true;
+
+                    if (map.PivotTableRows.Equals("True") || map.PivotTableRows.Equals("False"))
+                        row["PivotTableRows"] = false;
+                    else
+                        row["PivotTableRows"] = true;
+
+                    if (map.PivotTableValues != string.Empty)
+                    {
+                        string[] arr1 = new string[] { "of" };
+                        string[] str1 = map.PivotTableValues.Split(arr1, 10, StringSplitOptions.RemoveEmptyEntries);
+                        if (str1.Length != 0)
+                        {
+                            row["PivotTableValues"] = str1[0].ToString().Trim();
+                        }
+                    }
+                    else
+                        row["PivotTableValues"] = map.PivotTableValues;
+
+                    row["ExcelColumnDisplay"] = map.ExcelColumnDisplay;
+
+                    MappingDataTable.Rows.Add(row);
+                }
+            }
+            //  gridPivotTable.BindDataTableDataGrid(MappingDataTable);
+            ReloadExcelColumns();
+            Loading = false;
+        }
+
+        public CreatePivotTable(List<PivotTableMapping> ptMapping, autoDataTable vwDataTable)
+        {
+            Loading = true;
+
+            this.vmsDatatable = vwDataTable;
+
+            if (vwDataTable == null) return;
+
+            List<string> cols = new List<string>();
+            cols.Add("<Ignore>");
+            cols.Add("Sum");
+            cols.Add("Count");
+            cols.Add("Average");
+            cols.Add("Min");
+            cols.Add("Max");
+            cols.Add("Product");
+
+            string Title = " [ Datatable Name :" + vwDataTable.DataTableName + " ]";
+            this.mapping = ptMapping;
+
+            MappingDataTable = new System.Data.DataTable();
+            MappingDataTable.Columns.Add("PivotTableFields", typeof(string));
+            MappingDataTable.Columns.Add("PivotTableColumns", typeof(string));
+            MappingDataTable.Columns.Add("PivotTableRows", typeof(string));
+            MappingDataTable.Columns.Add("PivotTableValues", typeof(string));
+            MappingDataTable.Columns.Add("ExcelColumnDisplay", typeof(string));
+
+            foreach (PivotTableMapping map in mapping)
+            {
+                if (map.PivotTableFields != string.Empty)
+                {
+                    DataRow row = MappingDataTable.NewRow();
+                    row["PivotTableFields"] = map.PivotTableFields;
+
+                    if (map.PivotTableColumns.Equals("True") || map.PivotTableColumns.Equals("False"))
+                        row["PivotTableColumns"] = false;
+                    else
+                        row["PivotTableColumns"] = true;
+
+                    if (map.PivotTableRows.Equals("True") || map.PivotTableRows.Equals("False"))
+                        row["PivotTableRows"] = false;
+                    else
+                        row["PivotTableRows"] = true;
+
+                    if (map.PivotTableValues != string.Empty)
+                    {
+                        string[] arr1 = new string[] { "of" };
+                        string[] str1 = map.PivotTableValues.Split(arr1, 10, StringSplitOptions.RemoveEmptyEntries);
+                        if (str1.Length != 0)
+                        {
+                            row["PivotTableValues"] = str1[0].ToString().Trim();
+                        }
+                    }
+                    else
+                        row["PivotTableValues"] = map.PivotTableValues;
+
+                    row["ExcelColumnDisplay"] = map.ExcelColumnDisplay;
+
+                    MappingDataTable.Rows.Add(row);
+                }
+            }
+            //  gridPivotTable.BindDataTableDataGrid(MappingDataTable);
+            ReloadExcelColumns();
+        }
+
+
+    }
+
+    public class PivotTableMapping
+    {
+        private string pivotTableFields = string.Empty;
+        private string pivotTableColumns = string.Empty;
+        private string pivotTableRows = string.Empty;
+        private string pivotTableValues = string.Empty;
+        private string excelColumnDisplay = string.Empty;
+
+
+        public PivotTableMapping()
+        {
+
+        }
+
+        public PivotTableMapping(string ptFields, string ptColumns, string ptRows, string ptValues, string excelColumn)
+        {
+            pivotTableFields = ptFields;
+            pivotTableColumns = ptColumns;
+            pivotTableRows = ptRows;
+            pivotTableValues = ptValues;
+            excelColumnDisplay = excelColumn;
+        }
+
+        public string ExcelColumnDisplay
+        {
+            get { return excelColumnDisplay; }
+            set { excelColumnDisplay = value; }
+        }
+
+        public string PivotTableValues
+        {
+            get { return pivotTableValues; }
+            set { pivotTableValues = value; }
+        }
+
+        public string PivotTableRows
+        {
+            get { return pivotTableRows; }
+            set { pivotTableRows = value; }
+        }
+
+        public string PivotTableColumns
+        {
+            get { return pivotTableColumns; }
+            set { pivotTableColumns = value; }
+        }
+        public string PivotTableFields
+        {
+            get { return pivotTableFields; }
+            set { pivotTableFields = value; }
+        }
+    }
+
+    public class autoDataTable : IComparable
+    {
+        public autoDataTable()
+        {
+        }
+
+        public autoDataTable(string DataTableName)
+        {
+            this.DataTableName = DataTableName;
+        }
+
+        public autoDataTable(string DataTableName, System.Data.DataTable table)
+        {
+            this.DataTableName = DataTableName;
+            this.DataTable = table;
+        }
+
+        private string mDataTableName;
+
+        public string DataTableName
+        {
+            get { return mDataTableName; }
+            set { mDataTableName = value; }
+        }
+
+        private Columns mColumns = new Columns();
+
+        public Columns Columns
+        {
+            get { return mColumns; }
+            set { mColumns = value; }
+        }
+
+        [XmlIgnore]
+        public System.Data.DataTable DataTable = new System.Data.DataTable();
+
+        [XmlIgnore]
+        public int CurrentRowIndex = -1;
+
+        [XmlIgnore]
+        public DataRowCollection Rows
+        {
+            get
+            {
+                if (DataTable == null) return null;
+                return DataTable.Rows;
+            }
+        }
+
+        [XmlIgnore]
+        public DataRow CurrentRow
+        {
+            get
+            {
+                if (DataTable == null) return null;
+
+                if (CurrentRowIndex > -1 && CurrentRowIndex < DataTable.Rows.Count)
+                    return DataTable.Rows[CurrentRowIndex];
+
+                return null;
+            }
+            set
+            {
+                if (DataTable == null) return;
+                if (DataTable.Rows.IndexOf(value) != -1)
+                    CurrentRowIndex = DataTable.Rows.IndexOf(value);
+            }
+        }
+
+
+
+        public bool BOF
+        {
+            get
+            {
+                if (DataTable == null) return true;
+                return (CurrentRowIndex < 0);
+            }
+        }
+
+        public bool EOF
+        {
+            get
+            {
+                if (DataTable == null) return true;
+                return (CurrentRowIndex >= DataTable.Rows.Count);
+            }
+        }
+
+        public bool NextRow()
+        {
+            CurrentRowIndex++;
+            if (DataTable == null) return false;
+            return (CurrentRowIndex < DataTable.Rows.Count);
+        }
+
+        public bool FirstRow()
+        {
+            CurrentRowIndex = 0;
+            if (DataTable == null) return false;
+            return (CurrentRowIndex < DataTable.Rows.Count);
+        }
+
+        public bool LastRow()
+        {
+            if (DataTable == null) return false;
+            CurrentRowIndex = DataTable.Rows.Count - 1;
+            return (CurrentRowIndex < DataTable.Rows.Count);
+        }
+
+        public bool PreviousRow()
+        {
+            CurrentRowIndex--;
+            if (DataTable == null) return false;
+            return (CurrentRowIndex >= 0) && (CurrentRowIndex < DataTable.Rows.Count);
+        }
+
+        public object GetFieldValue(string FieldName)
+        {
+            return CurrentRow[FieldName];
+        }
+
+        public void SetFieldValue(string FieldName, object FieldValue)
+        {
+            CurrentRow[FieldName] = FieldValue;
+        }
+
+        public void CreateBlankDataTableWithColumns()
+        {
+            DataTable = new System.Data.DataTable();
+            foreach (Column col in Columns)
+            {
+                if (string.IsNullOrEmpty(col.TypeName)) col.TypeName = "string";
+
+                Type t = Type.GetType(col.TypeName);
+                if (t == null)
+                {
+                    if (col.TypeName.ToLower() == "string") t = typeof(string);
+                    if (col.TypeName.ToLower() == "int") t = typeof(int);
+                    if (col.TypeName.ToLower() == "datetime") t = typeof(DateTime);
+                    if (col.TypeName.ToLower() == "decimal") t = typeof(decimal);
+                    if (col.TypeName.ToLower() == "bool") t = typeof(bool);
+
+                    if (t == null) t = typeof(string);
+                }
+
+                DataTable.Columns.Add(col.Name, t);
+            }
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is autoDataTable)
+                return this.DataTableName.CompareTo(((autoDataTable)obj).DataTableName);
+            else
+                return 0;
+        }
+
+
+
+    }
+
+    public class Column
+    {
+        private string mName = string.Empty;
+        private string mTypeName = string.Empty;
+        private string mColumnID = string.Empty;
+
+        public string ColumnID
+        {
+            get { return mColumnID; }
+            set { mColumnID = value; }
+        }
+        public string Name
+        {
+            get { return mName; }
+            set { mName = value; }
+        }
+
+        public string TypeName
+        {
+            get { return mTypeName; }
+            set { mTypeName = value; }
+        }
+
+        public Column()
+        {
+        }
+
+        public Column(string Name)
+        {
+            this.Name = Name;
+        }
+    }
+
+    public class Columns : List<Column>
+    {
+        public Column this[string ColumnName]
+        {
+            get
+            {
+                foreach (Column c in this)
+                {
+                    if (c.Name.Equals(ColumnName, StringComparison.CurrentCultureIgnoreCase)) return c;
+                }
+
+                return null;
+            }
+            set
+            {
+                this[ColumnName] = value;
+            }
+        }
+
+        public int IndexOf(string ColumnName)
+        {
+            if (this[ColumnName] == null) return -1;
+            return this.IndexOf(this[ColumnName]);
+        }
+
+        public bool Contains(string ColumnName)
+        {
+            return (!(this[ColumnName] == null));
+        }
+
+        public Column GetByColumnName(string ColumnName)
+        {
+            return this[ColumnName];
+        }
+
+        public Column AddNewColumn()
+        {
+            Column retValue = new Column();
+            retValue.Name = GetNextColumnName();
+            this.Add(retValue);
+            return retValue;
+        }
+
+        public string GetNextColumnName()
+        {
+            int i = 1;
+            while (true)
+            {
+                if (this["Column" + i.ToString()] == null)
+                    return "Column" + i.ToString();
+
+                i++;
+            }
+        }
+
+        public bool Open(string FilePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveAs(string FilePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(string Objectname)
+        {
+            Column tProjectFlow = this.Where(f => f.Name.Equals(Objectname)).FirstOrDefault();
+            if (tProjectFlow != null)
+            {
+                return this.Remove(tProjectFlow);
+            }
+            else
+                return false;
+        }
+
+        public bool Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object AddNew(string Objectname)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string New(string Objectname)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object AddNew()
+        {
+            Column retValue = new Column();
+            retValue.Name = New();
+            this.Add(retValue);
+            return retValue;
+        }
+
+        public string New()
+        {
+            int i = 1;
+            while (true)
+            {
+                if (this["Column" + i.ToString()] == null)
+                    return "Column" + i.ToString();
+
+                i++;
+            }
+        }
+
+        public bool Rename(string OldObjectname, string NewObjectname)
+        {
+            Column tProjectFlow = this.Where(f => f.Name.Equals(OldObjectname)).FirstOrDefault();
+            if (tProjectFlow != null)
+            {
+                tProjectFlow.Name = NewObjectname;
+                return true;
+            }
+            else
+                return false;
         }
     }
 
